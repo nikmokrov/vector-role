@@ -1,0 +1,28 @@
+---
+- name: Add vector repo
+  become: true
+  ansible.builtin.yum_repository:
+    name: vector
+    description: Vector repo
+    baseurl: "https://repositories.timber.io/public/vector/rpm/any-distro/any-version/{{ ansible_architecture }}"
+- name: Install vector package
+  become: true
+  ansible.builtin.yum:
+    name: "vector-{{ vector_version }}"
+    state: present
+    disable_gpg_check: true
+- name: Delete all other possible vector config files
+  become: true
+  ansible.builtin.file:
+    path: "/etc/vector/{{ item }}"
+    state: absent
+  with_items: "{{ vector_unneeded_config_files }}"
+- name: Generate vector config file
+  become: true
+  ansible.builtin.template:
+    src: "./templates/vector.j2"
+    dest: "/etc/vector/vector.toml"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart vector service

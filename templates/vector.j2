@@ -1,0 +1,18 @@
+data_dir = "{{vector_data_dir }}"
+
+[sources.syslog]
+type = "file"
+include = [ "/var/log/syslog" ]
+ignore_older = 86400
+
+[sinks.clickhouse]
+inputs = [ "syslog" ]
+type = "clickhouse"
+database = "logs"
+table = "syslog"
+endpoint = "http://{{ clickhouse_host }}:8123"
+auth.strategy = "basic"
+auth.user = "default"
+auth.password = ""
+
+

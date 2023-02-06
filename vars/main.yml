@@ -1,0 +1,4 @@
+---
+vector_unneeded_config_files:
+  - vector.yaml
+  - vector.json
