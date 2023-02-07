@@ -12,7 +12,5 @@ database = "logs"
 table = "syslog"
 endpoint = "http://{{ clickhouse_host }}:8123"
 auth.strategy = "basic"
-auth.user = "default"
-auth.password = ""
-
-
+auth.user = "{{ clickhouse_user }}"
+auth.password = "{{ clickhouse_password }}"

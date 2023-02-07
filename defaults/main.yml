@@ -2,3 +2,5 @@
 vector_version: "0.27.0"
 vector_data_dir: "/var/lib/vector"
 clickhouse_host: 127.0.0.1
+clickhouse_user: "default"
+clickhouse_password: ""
