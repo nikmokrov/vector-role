@@ -1,0 +1,27 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Request Vector config stats
+    ansible.builtin.stat:
+      path: "/etc/vector/vector.toml"
+    register: vector_config
+  # - name: Print Vector config
+  #   ansible.builtin.debug:
+  #     var: vector_config
+  - name: Check Vector config exists
+    assert:
+      that:
+        vector_config.stat.exists: true
+  - name: Request Vector service facts
+    ansible.builtin.service_facts:
+  # - name: Print service facts
+  #   ansible.builtin.debug:
+  #     var: ansible_facts.services
+  - name: Check Vector service started
+    assert:
+      that:
+        ansible_facts.services['vector.service'].state == "running"

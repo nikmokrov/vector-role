@@ -6,11 +6,9 @@ include = [ "/var/log/syslog" ]
 ignore_older = 86400
 
 [sinks.clickhouse]
+type = "console"
 inputs = [ "syslog" ]
-type = "clickhouse"
-database = "logs"
-table = "syslog"
-endpoint = "http://{{ clickhouse_host }}:8123"
-auth.strategy = "basic"
-auth.user = "{{ clickhouse_user }}"
-auth.password = "{{ clickhouse_password }}"
+target = "stdout"
+
+  [sinks.clickhouse.encoding]
+  codec = "json"
