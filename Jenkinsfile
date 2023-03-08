@@ -3,13 +3,16 @@ pipeline{
   label 'ansible'
 }
     stages{
-        stage('First'){
+        stage('Git clone'){
             steps{
-                sh 'rm -rf vector-role'
-                sh 'git clone https://github.com/nikmokrov/vector-role.git'
-                sh 'cd vector-role'
+                git branch: 'main', url: 'https://github.com/nikmokrov/vector-role.git'
+            }
+        }
+        stage('Run molecule test'){
+            steps{
                 sh 'molecule test'
             }
         }
+
     }
 }
